@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>What's New At LU</title>
+
+    <link rel="stylesheet"
+    href="homepage.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>
+        What's New At LU
+    </h1>
+
+    <div class="header-buttons">
+
+        <button onclick="location.href='day.html'">
+            Day
+        </button>
+
+        <button onclick="location.href='week.html'">
+            Week
+        </button>
+
+        <button onclick="location.href='month.html'">
+            Month
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+<section class="banner">
+
+    <h2>
+        Upcoming Events
+    </h2>
+
+    <p>
+        Stay connected with campus activities.
+    </p>
+
+</section>
+
+<section class="search-section">
+
+    <input
+        type="text"
+        id="searchBar"
+        placeholder="Search events..."
+        onkeyup="searchEvents()">
+
+</section>
+
+<section id="event-container">
+
+</section>
+
+<script src="data.js"></script>
+<script src="homepage.js"></script>
+
+</body>
+
+</html>

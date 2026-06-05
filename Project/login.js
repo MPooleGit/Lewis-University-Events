@@ -1,20 +1,34 @@
-function logIn(event) {
+function logIn(event)
+{
     event.preventDefault();
 
-    const username = document.getElementById("username").value;
-     const password = document.getElementById("password").value;
-     const errorMessage = document.getElementById("error-message");
+    const username =
+    document.getElementById("username").value;
 
-     const correctUsername = "admin";
-     const correctPassword = "1234";
+    const password =
+    document.getElementById("password").value;
 
-  if (username === correctUsername && password === correctPassword) {
+    const errorMessage =
+    document.getElementById("error-message");
 
-    window.location.href = "homepage.html";
-}  else {
-    errorMessage.textContent = "Incorrect username or password.";
-  }
+    const correctUsername = "admin";
+    const correctPassword = "1234";
 
+    if(
+        username === correctUsername &&
+        password === correctPassword
+    )
+    {
+        localStorage.setItem(
+            "loggedIn",
+            "true"
+        );
+
+        window.location.href = "homepage.html";
+    }
+    else
+    {
+        errorMessage.textContent =
+        "Incorrect username or password.";
+    }
 }
-
- 
