@@ -1,60 +1,67 @@
-const params =
-new URLSearchParams(
-    window.location.search
-);
-
-const id =
-parseInt(
-    params.get("id")
-);
-
-const event =
-events.find(
-    e => e.id === id
-);
-
-const detail =
-document.getElementById(
-    "event-detail"
-);
-
-if(event)
+async function loadEvent()
 {
-    detail.innerHTML = `
+    const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-        <div class="event-card">
+    const id =
+    parseInt(
+        params.get("id")
+    );
 
-            <h1>${event.title}</h1>
+    const events =
+    await loadEvents();
 
-            <p>
+    const event =
+    events.find(
+        e => e.id === id
+    );
+
+    const detail =
+    document.getElementById(
+        "event-detail"
+    );
+
+    if(event)
+    {
+        detail.innerHTML = `
+            <div class="event-card">
+
+                <h1>${event.title}</h1>
+
+                <p>
                 <strong>Date:</strong>
                 ${event.date}
-            </p>
+                </p>
 
-            <p>
+                <p>
                 <strong>Location:</strong>
                 ${event.location}
-            </p>
+                </p>
 
-            <p>
+                <p>
                 <strong>Host:</strong>
-                ${event.host}
-            </p>
+                ${event.host || ""}
+                </p>
 
-            <p>
+                <p>
                 <strong>Contact:</strong>
-                ${event.contact}
-            </p>
+                ${event.contact || ""}
+                </p>
 
-            <p>
-                ${event.description}
-            </p>
+                <p>
+                ${event.description || ""}
+                </p>
 
-        </div>
-    `;
+            </div>
+        `;
+    }
+    else
+    {
+        detail.innerHTML =
+        "<h2>Event not found.</h2>";
+    }
 }
-else
-{
-    detail.innerHTML =
-    "<h2>Event not found.</h2>";
-}
+
+loadEvent();

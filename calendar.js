@@ -1,56 +1,60 @@
-const container =
-document.getElementById(
-    "events-container"
-);
-
-if(container)
+async function initializeCalendar()
 {
-    events.forEach(event => {
+    const container =
+    document.getElementById(
+        "events-container"
+    );
 
-        const card =
-        document.createElement("div");
+    if(container)
+    {
+        const events =
+        await loadEvents();
 
-        card.classList.add("event");
+        events.forEach(event =>
+        {
+            const card =
+            document.createElement("div");
 
-        card.innerHTML = `
+            card.classList.add(
+                "event"
+            );
 
-            <h2>${event.title}</h2>
+            card.innerHTML = `
+                <h2>${event.title}</h2>
 
-            <p>
-                ${event.date}
-            </p>
+                <p>${event.date}</p>
 
-            <p>
-                ${event.location}
-            </p>
+                <p>${event.location}</p>
 
-            <button
-            onclick="window.location.href='event.html?id=${event.id}'">
+                <button
+                onclick="window.location.href='event.html?id=${event.id}'">
 
-            View Event
+                View Event
 
-            </button>
-        `;
+                </button>
+            `;
 
-        container.appendChild(card);
-
-    });
+            container.appendChild(
+                card
+            );
+        });
+    }
 }
+
+initializeCalendar();
 
 const days =
 document.querySelectorAll(
-    ".calendar-day"
+".calendar-day"
 );
 
-days.forEach(day => {
-
+days.forEach(day =>
+{
     day.addEventListener(
-        "click",
-        function()
-        {
-            window.location.href =
-            "day.html";
-        }
-    );
-
+    "click",
+    function()
+    {
+        window.location.href =
+        "day.html";
+    });
 });
