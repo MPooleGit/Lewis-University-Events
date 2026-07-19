@@ -1,60 +1,78 @@
-async function initializeCalendar()
-{
-    const container =
-    document.getElementById(
-        "events-container"
-    );
+async function initializeCalendar() {
 
-    if(container)
-    {
-        const events =
-        await loadEvents();
+    const container = document.getElementById("events-container");
 
-        events.forEach(event =>
-        {
-            const card =
-            document.createElement("div");
+    if (!container) return;
 
-            card.classList.add(
-                "event"
-            );
+    const page = window.location.pathname.toLowerCase();
 
-            card.innerHTML = `
-                <h2>${event.title}</h2>
+    const events = await loadEvents();
 
-                <p>${event.date}</p>
+    container.innerHTML = "";
 
-                <p>${event.location}</p>
+    if (page.includes("day")) {
 
-                <button
-                onclick="window.location.href='event.html?id=${event.id}'">
+        const today = new Date().getDate().toString();
 
-                View Event
+        const dayEvents = events.filter(event =>
+            event.date.includes(today)
+        );
 
-                </button>
-            `;
+        (dayEvents.length ? dayEvents : events).forEach(addEventCard);
 
-            container.appendChild(
-                card
-            );
-        });
     }
+
+    else if (page.includes("week")) {
+
+        events.forEach(addEventCard);
+
+    }
+
+}
+
+function addEventCard(event) {
+
+    const container = document.getElementById("events-container");
+
+    const card = document.createElement("div");
+
+    card.className = "event";
+
+    card.innerHTML = `
+        <h2>${event.title}</h2>
+        <p><strong>Date:</strong> ${event.date}</p>
+        <p><strong>Time:</strong> ${event.time}</p>
+        <p><strong>Location:</strong> ${event.location}</p>
+    `;
+
+    container.appendChild(card);
+
 }
 
 initializeCalendar();
 
-const days =
-document.querySelectorAll(
-".calendar-day"
-);
+const days = document.querySelectorAll(".calendar-day");
 
-days.forEach(day =>
-{
-    day.addEventListener(
-    "click",
-    function()
-    {
-        window.location.href =
-        "day.html";
+days.forEach(day => {
+
+    day.addEventListener("click", async function () {
+
+        const events = await loadEvents();
+
+        const dayNumber = this.textContent.trim();
+
+        this.innerHTML = `<strong>${dayNumber}</strong>`;
+
+        events.forEach(event => {
+
+            if (event.date.includes(dayNumber)) {
+
+                this.innerHTML += `<br><small>${event.title}</small>`;
+
+            }
+
+        });
+
     });
+
 });

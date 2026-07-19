@@ -1,67 +1,55 @@
-async function initializeHomepage()
-{
-    const container =
-    document.getElementById(
-        "event-container"
-    );
+async function initializeHomepage() {
 
-    const events =
-    await loadEvents();
+    const container = document.getElementById("event-container");
+
+    if (!container) return;
+
+    const events = await loadEvents();
 
     container.innerHTML = "";
 
-    events.forEach(event =>
-    {
-        const card =
-        document.createElement("div");
+    events.forEach(event => {
 
-        card.classList.add(
-            "event-card"
-        );
+        const card = document.createElement("div");
+
+        card.className = "event-card";
 
         card.innerHTML = `
             <h2>${event.title}</h2>
-
             <p>${event.date}</p>
-
+            <p>${event.time}</p>
             <p>${event.location}</p>
-
-            <button
-            onclick="viewEvent(${event.id})">
-
-            View Details
-
-            </button>
         `;
 
         container.appendChild(card);
+
     });
+
 }
 
-function viewEvent(id)
-{
-    window.location.href =
-    `event.html?id=${id}`;
-}
+function searchEvents() {
 
-initializeHomepage();
+    const value = document
+        .getElementById("searchBar")
+        .value
+        .toLowerCase();
+
+    const cards = document.querySelectorAll(".event-card");
 
     cards.forEach(card => {
 
-        if(
-            card.innerText
-            .toLowerCase()
-            .includes(value)
-        )
-        {
-            card.style.display =
-            "block";
-        }
-        else
-        {
-            card.style.display =
-            "none";
+        if (card.innerText.toLowerCase().includes(value)) {
+
+            card.style.display = "block";
+
+        } else {
+
+            card.style.display = "none";
+
         }
 
     });
+
 }
+
+initializeHomepage();
