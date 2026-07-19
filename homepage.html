@@ -1,12 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>What's New At LU</title>
 
     <link rel="stylesheet"
-    href="homepage.css">
+          href="homepage.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap"
+          rel="stylesheet">
 
 </head>
 
@@ -14,22 +29,27 @@
 
 <header>
 
-    <h1>
-        What's New At LU
-    </h1>
-
     <div class="header-buttons">
 
         <button onclick="location.href='day.html'">
-            Day
+            📅 Day
         </button>
 
         <button onclick="location.href='week.html'">
-            Week
+            🗓 Week
         </button>
 
         <button onclick="location.href='month.html'">
-            Month
+            📆 Month
+        </button>
+
+        <button id="darkModeBtn"
+                onclick="toggleDarkMode()">
+            🌙 Dark Mode
+        </button>
+
+        <button id="musicBtn">
+            🎵 Music
         </button>
 
         <button onclick="logout()">
@@ -40,31 +60,74 @@
 
 </header>
 
-<section class="banner">
+<section class="hero">
+
+    <h1>
+        What's New At LU
+    </h1>
 
     <h2>
-        Upcoming Events
+        Discover Everything Happening Around Campus
     </h2>
 
-    <p>
-        Stay connected with campus activities.
+    <img
+        src="https://via.placeholder.com/900x350?text=Campus+Image"
+        alt="Campus Image"
+        class="hero-image">
+
+    <p class="hero-description">
+
+        Welcome to <strong>What's New At LU</strong>, your
+        one-stop destination for discovering everything
+        happening around Liberty University.
+
+        Browse campus events by day, week, or month,
+        search for activities that interest you,
+        and never miss an opportunity to get involved.
+        Whether you're looking for club meetings,
+        athletic events, concerts, guest speakers,
+        volunteer opportunities, or student life events,
+        this site keeps you connected with campus.
+
     </p>
 
 </section>
 
 <section class="search-section">
 
+    <h2>
+        Search Upcoming Events
+    </h2>
+
     <input
         type="text"
         id="searchBar"
-        placeholder="Search events..."
+        placeholder="Search by event name, date, or keyword..."
         onkeyup="searchEvents()">
+
+</section>
+
+<section>
+
+    <h2 class="events-title">
+        Featured Events
+    </h2>
 
 </section>
 
 <section id="event-container">
 
 </section>
+
+<footer>
+
+    <p>
+
+        © 2026 What's New At LU
+
+    </p>
+
+</footer>
 
 <script src="data.js"></script>
 <script src="homepage.js"></script>

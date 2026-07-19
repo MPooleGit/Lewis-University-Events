@@ -52,4 +52,68 @@ function searchEvents() {
 
 }
 
+function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+
+    if(document.body.classList.contains("dark-mode")){
+
+        localStorage.setItem("theme","dark");
+
+    }else{
+
+        localStorage.setItem("theme","light");
+
+    }
+
+}
+
+window.onload=()=>{
+
+    if(localStorage.getItem("theme")==="dark"){
+
+        document.body.classList.add("dark-mode");
+
+    }
+
+}
+
+const music=document.getElementById("bgMusic");
+
+document.getElementById("musicBtn").onclick=function(){
+
+    if(music.paused){
+
+        music.play();
+        this.innerHTML="⏸ Pause Music";
+
+    }else{
+
+        music.pause();
+        this.innerHTML="🎵 Music";
+
+    }
+
+}
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+});
+
+document.querySelectorAll(".event-card").forEach(card=>{
+
+observer.observe(card);
+
+});
+
 initializeHomepage();
