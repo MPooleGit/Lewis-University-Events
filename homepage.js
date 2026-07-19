@@ -116,4 +116,4 @@ observer.observe(card);
 
 });
 
-initializeHomepage();
+window.addEventListener("DOMContentLoaded", initializeHomepage);
