@@ -563,3 +563,38 @@ button:hover{
 
 
 }
+
+.calendar-day{
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    align-items:center;
+
+    padding:10px;
+
+    overflow:hidden;
+
+}
+
+
+.mini-event{
+
+    margin-top:8px;
+
+    width:95%;
+
+    padding:6px;
+
+    background:#7d0000;
+
+    color:white;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}

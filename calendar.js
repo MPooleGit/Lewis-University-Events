@@ -222,69 +222,162 @@ function nextWeek() {
 // MONTH VIEW
 // ---------------------
 
-function buildCalendar() {
+function buildCalendar(){
+
 
     const calendar =
-        document.getElementById("calendar");
+        document.getElementById(
+            "calendar"
+        );
 
-    if (!calendar) return;
+
+    if(!calendar) return;
+
+
 
     calendar.innerHTML = "";
+
+
 
     const daysInMonth =
         new Date(
 
             currentDate.getFullYear(),
 
-            currentDate.getMonth() + 1,
+            currentDate.getMonth()+1,
 
             0
 
         ).getDate();
 
-    document.getElementById("currentMonth").textContent =
 
-        currentDate.toLocaleString(
 
-            "default",
+    document.getElementById(
+        "currentMonth"
+    ).textContent =
 
-            {
 
-                month: "long",
+    currentDate.toLocaleString(
 
-                year: "numeric"
+        "default",
 
-            }
+        {
 
-        );
+            month:"long",
 
-    for (
+            year:"numeric"
 
+        }
+
+    );
+
+
+
+    for(
         let day = 1;
-
         day <= daysInMonth;
-
         day++
+    ){
 
-    ) {
 
         const square =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
+
 
         square.className =
             "calendar-day";
 
-        square.textContent = day;
 
-        square.onclick = () => {
+
+        let html = `
+
+            <strong>
+            ${day}
+            </strong>
+
+        `;
+
+
+
+        const dayEvents =
+            events.filter(event=>{
+
+
+                const d =
+                    new Date(
+                        event.date
+                    );
+
+
+                return (
+
+                    d.getDate()
+                    === day
+
+                    &&
+
+                    d.getMonth()
+                    ===
+                    currentDate.getMonth()
+
+                    &&
+
+                    d.getFullYear()
+                    ===
+                    currentDate.getFullYear()
+
+                );
+
+
+            });
+
+
+
+        dayEvents.forEach(event=>{
+
+
+            html += `
+
+            <div class="mini-event">
+
+                ${event.title}
+
+                <br>
+
+                <small>
+                ${event.time}
+                </small>
+
+            </div>
+
+            `;
+
+
+        });
+
+
+
+        square.innerHTML =
+            html;
+
+
+
+        square.onclick = ()=>{
 
             showEventsForDay(day);
 
         };
 
+
+
         calendar.appendChild(square);
 
+
+
     }
+
 
 }
 
