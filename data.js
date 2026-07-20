@@ -3,7 +3,6 @@ let eventData = [];
 
 async function loadEvents() {
 
-
     if(eventData.length > 0){
 
         return eventData;
@@ -11,25 +10,11 @@ async function loadEvents() {
     }
 
 
-
-    try{
-
+    try {
 
         const response = await fetch("events.csv");
 
-
-        if(!response.ok){
-
-            throw new Error(
-                "events.csv not found"
-            );
-
-        }
-
-
-
         const text = await response.text();
-
 
 
         const rows = text
@@ -42,23 +27,12 @@ async function loadEvents() {
 
 
 
-        // Remove CSV quotes and split correctly
-        function parseRow(row){
+        // Remove CSV quotation marks
+        function clean(value){
 
-
-            return row
-
-            .replace(/^"|"$/g,"")
-
-            .split(",")
-
-            .map(item =>
-
-                item.replace(/^"|"$/g,"")
-                    .trim()
-
-            );
-
+            return value
+                .replace(/^"|"$/g,"")
+                .trim();
 
         }
 
@@ -68,11 +42,15 @@ async function loadEvents() {
         for(let i = 1; i < rows.length; i++){
 
 
-            const cols = parseRow(rows[i]);
+            let row = clean(rows[i]);
+
+
+            // YOUR FILE USES TABS
+            const cols = row.split("\t");
 
 
 
-            let rawDate = cols[0];
+            let rawDate = clean(cols[0]);
 
 
 
@@ -80,42 +58,28 @@ async function loadEvents() {
 
 
 
-            /*
-              Convert:
-              8/15/2026
-
-              into:
-
-              2026-08-15
-            */
-
-            const parts =
-                rawDate.split("/");
+            // Convert 8/15/2026 -> 2026-08-15
+            const dateParts = rawDate.split("/");
 
 
-
-            if(parts.length === 3){
-
+            if(dateParts.length === 3){
 
                 rawDate =
-                `${parts[2]}-${
+                `${dateParts[2]}-${
 
-                    parts[0]
-                    .padStart(2,"0")
+                    dateParts[0].padStart(2,"0")
 
                 }-${
 
-                    parts[1]
-                    .padStart(2,"0")
+                    dateParts[1].padStart(2,"0")
 
                 }`;
-
 
             }
 
 
 
-            // Starting after date
+            // Every event is title/time pair
             for(
                 let j = 1;
                 j < cols.length;
@@ -124,23 +88,22 @@ async function loadEvents() {
 
 
                 const title =
-                    cols[j];
+                    clean(cols[j] || "");
+
 
 
                 const time =
-                    cols[j+1];
+                    clean(cols[j+1] || "");
 
 
 
                 if(
                     title &&
-                    title.trim() !== "" &&
                     title !== "Description"
                 ){
 
 
                     eventData.push({
-
 
                         id:
                         eventData.length + 1,
@@ -165,7 +128,6 @@ async function loadEvents() {
                         description:
                         "Campus event at Lewis University."
 
-
                     });
 
 
@@ -178,25 +140,22 @@ async function loadEvents() {
         }
 
 
-
         console.log(
-            "Events loaded:",
+            "Loaded events:",
             eventData
         );
-
 
 
         return eventData;
 
 
-
     }
+
 
     catch(error){
 
-
         console.error(
-            "CSV loading error:",
+            "CSV Error:",
             error
         );
 
