@@ -32,7 +32,7 @@ async function loadEvents() {
                         title: title.trim(),
                         date: date.trim(),
                         time: time ? time.trim() : "",
-                        location: "Liberty University"
+                        location: "Lewis University"
                     });
 
                 }
