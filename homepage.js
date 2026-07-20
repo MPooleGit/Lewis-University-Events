@@ -1,10 +1,33 @@
+let allEvents = [];
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // Load theme
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
+    setupMusic();
+
+    await initializeHomepage();
+
+});
+
 async function initializeHomepage() {
 
     const container = document.getElementById("event-container");
 
     if (!container) return;
 
-    const events = await loadEvents();
+    allEvents = await loadEvents();
+
+    displayEvents(allEvents);
+
+}
+
+function displayEvents(events) {
+
+    const container = document.getElementById("event-container");
 
     container.innerHTML = "";
 
@@ -16,10 +39,23 @@ async function initializeHomepage() {
 
         card.innerHTML = `
             <h2>${event.title}</h2>
-            <p>${event.date}</p>
-            <p>${event.time}</p>
-            <p>${event.location}</p>
+
+            <p><strong>Date:</strong> ${event.date}</p>
+
+            <p><strong>Time:</strong> ${event.time}</p>
+
+            <p><strong>Location:</strong> ${event.location}</p>
+
+            <div class="event-details">
+
+                <p>${event.description || "No description available."}</p>
+
+            </div>
         `;
+
+        card.addEventListener("click", () => {
+            card.classList.toggle("expanded");
+        });
 
         container.appendChild(card);
 
@@ -34,21 +70,19 @@ function searchEvents() {
         .value
         .toLowerCase();
 
-    const cards = document.querySelectorAll(".event-card");
+    const filtered = allEvents.filter(event => {
 
-    cards.forEach(card => {
-
-        if (card.innerText.toLowerCase().includes(value)) {
-
-            card.style.display = "block";
-
-        } else {
-
-            card.style.display = "none";
-
-        }
+        return (
+            event.title.toLowerCase().includes(value) ||
+            event.date.toLowerCase().includes(value) ||
+            event.time.toLowerCase().includes(value) ||
+            event.location.toLowerCase().includes(value) ||
+            (event.description || "").toLowerCase().includes(value)
+        );
 
     });
+
+    displayEvents(filtered);
 
 }
 
@@ -56,64 +90,48 @@ function toggleDarkMode() {
 
     document.body.classList.toggle("dark-mode");
 
-    if(document.body.classList.contains("dark-mode")){
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("dark-mode")
+            ? "dark"
+            : "light"
+    );
 
-        localStorage.setItem("theme","dark");
+}
 
-    }else{
+function startClock(){
 
-        localStorage.setItem("theme","light");
+    function update(){
+
+        const now = new Date();
+
+        let hours = now.getHours();
+
+        const minutes = String(now.getMinutes()).padStart(2,"0");
+
+        const seconds = String(now.getSeconds()).padStart(2,"0");
+
+        const ampm = hours >= 12 ? "PM" : "AM";
+
+        hours = hours % 12;
+
+        if(hours === 0) hours = 12;
+
+        document.getElementById("clock").textContent =
+            `${hours}:${minutes}:${seconds} ${ampm}`;
 
     }
 
-}
+    update();
 
-window.onload=()=>{
-
-    if(localStorage.getItem("theme")==="dark"){
-
-        document.body.classList.add("dark-mode");
-
-    }
+    setInterval(update,1000);
 
 }
 
-const music=document.getElementById("bgMusic");
+startClock();
 
-document.getElementById("musicBtn").onclick=function(){
+card.onclick=()=>{
 
-    if(music.paused){
-
-        music.play();
-        this.innerHTML="⏸ Pause Music";
-
-    }else{
-
-        music.pause();
-        this.innerHTML="🎵 Music";
-
-    }
+    card.classList.toggle("expanded");
 
 }
-
-const observer=new IntersectionObserver(entries=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add("show");
-
-}
-
-});
-
-});
-
-document.querySelectorAll(".event-card").forEach(card=>{
-
-observer.observe(card);
-
-});
-
-window.addEventListener("DOMContentLoaded", initializeHomepage);

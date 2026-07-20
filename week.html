@@ -1,36 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Week View</title>
 
     <link rel="stylesheet"
-    href="calendar.css">
+          href="calendar.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap"
+          rel="stylesheet">
 
 </head>
 
 <body>
 
+<div id="clock"></div>
+
 <header>
 
-    <h1>Week View</h1>
+    <h1>What's New At LU</h1>
 
     <nav>
 
-        <a href="homepage.html">Home</a>
-        <a href="day.html">Day</a>
-        <a href="month.html">Month</a>
+        <a href="homepage.html">🏠 Home</a>
+
+        <a href="day.html">📅 Day</a>
+
+        <a href="month.html">🗓 Month</a>
 
     </nav>
 
 </header>
 
-<div id="events-container">
+<section class="page-header">
 
-</div>
+    <button id="prevWeek">
+        ◀
+    </button>
+
+    <h2 id="currentWeek">
+        Loading...
+    </h2>
+
+    <button id="nextWeek">
+        ▶
+    </button>
+
+</section>
+
+<section id="events-container">
+
+</section>
 
 <script src="data.js"></script>
+
 <script src="calendar.js"></script>
 
 </body>

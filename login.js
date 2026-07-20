@@ -11,8 +11,8 @@ function logIn(event)
     const errorMessage =
     document.getElementById("error-message");
 
-    const correctUsername = "admin";
-    const correctPassword = "1234";
+    const correctUsername = "student";
+    const correctPassword = "2026";
 
     if(
         username === correctUsername &&
