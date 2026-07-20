@@ -346,6 +346,7 @@ function nextMonth() {
 async function initializeCalendar() {
 
     startClock();
+    setupDarkMode();
 
     events = await loadEvents();
 
@@ -401,3 +402,72 @@ document.addEventListener(
     "DOMContentLoaded",
     initializeCalendar
 );
+
+function setupDarkMode(){
+
+    const button =
+        document.getElementById("darkModeBtn");
+
+
+    if(!button) return;
+
+
+    if(
+        localStorage.getItem("theme")
+        ===
+        "dark"
+    ){
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+        button.textContent =
+        "☀️ Light Mode";
+
+    }
+
+
+    button.onclick=function(){
+
+        document.body.classList.toggle(
+            "dark-mode"
+        );
+
+
+        if(
+            document.body.classList.contains(
+                "dark-mode"
+            )
+        ){
+
+            localStorage.setItem(
+                "theme",
+                "dark"
+            );
+
+
+            button.textContent =
+            "☀️ Light Mode";
+
+
+        }
+
+        else{
+
+
+            localStorage.setItem(
+                "theme",
+                "light"
+            );
+
+
+            button.textContent =
+            "🌙 Dark Mode";
+
+
+        }
+
+    }
+
+}
