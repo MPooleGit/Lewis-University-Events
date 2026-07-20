@@ -1,7 +1,7 @@
 // calendar.js
 
 let events = [];
-let currentDate = new Date();
+let currentDate = new Date(2026,7,15);
 
 // ---------------------
 // CLOCK

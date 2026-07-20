@@ -129,9 +129,3 @@ function startClock(){
 }
 
 startClock();
-
-card.onclick=()=>{
-
-    card.classList.toggle("expanded");
-
-}

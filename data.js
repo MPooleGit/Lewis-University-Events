@@ -1,7 +1,7 @@
 let eventData = [];
 
 
-async function loadEvents() {
+async function loadEvents(){
 
     if(eventData.length > 0){
 
@@ -10,7 +10,7 @@ async function loadEvents() {
     }
 
 
-    try {
+    try{
 
         const response = await fetch("events.csv");
 
@@ -27,39 +27,42 @@ async function loadEvents() {
 
 
 
-        // Remove CSV quotation marks
-        function clean(value){
-
-            return value
-                .replace(/^"|"$/g,"")
-                .trim();
-
-        }
-
-
-
-        // Skip header
         for(let i = 1; i < rows.length; i++){
 
 
-            let row = clean(rows[i]);
+            let row = rows[i];
 
 
-            // YOUR FILE USES TABS
+            // Remove the outside quotes
+            row = row.replace(/^"|"$/g,"");
+
+
+
+            // IMPORTANT:
+            // Your file is tab separated
             const cols = row.split("\t");
 
 
 
-            let rawDate = clean(cols[0]);
+            let rawDate = cols[0].trim();
 
 
 
-            if(!rawDate) continue;
+            if(!rawDate){
+
+                continue;
+
+            }
 
 
 
-            // Convert 8/15/2026 -> 2026-08-15
-            const dateParts = rawDate.split("/");
+            // Convert:
+            // 8/15/2026
+            // into:
+            // 2026-08-15
+
+            let dateParts =
+                rawDate.split("/");
 
 
             if(dateParts.length === 3){
@@ -79,7 +82,6 @@ async function loadEvents() {
 
 
 
-            // Every event is title/time pair
             for(
                 let j = 1;
                 j < cols.length;
@@ -87,13 +89,13 @@ async function loadEvents() {
             ){
 
 
-                const title =
-                    clean(cols[j] || "");
+                let title =
+                    cols[j]?.trim();
 
 
 
-                const time =
-                    clean(cols[j+1] || "");
+                let time =
+                    cols[j+1]?.trim();
 
 
 
@@ -102,19 +104,16 @@ async function loadEvents() {
                     title !== "Description"
                 ){
 
-
                     eventData.push({
 
                         id:
                         eventData.length + 1,
 
 
-                        title:
-                        title,
+                        title:title,
 
 
-                        date:
-                        rawDate,
+                        date:rawDate,
 
 
                         time:
@@ -126,7 +125,7 @@ async function loadEvents() {
 
 
                         description:
-                        "Campus event at Lewis University."
+                        "Campus event."
 
                     });
 
@@ -140,8 +139,9 @@ async function loadEvents() {
         }
 
 
+
         console.log(
-            "Loaded events:",
+            "FINAL EVENTS:",
             eventData
         );
 
@@ -154,11 +154,7 @@ async function loadEvents() {
 
     catch(error){
 
-        console.error(
-            "CSV Error:",
-            error
-        );
-
+        console.error(error);
 
         return [];
 
